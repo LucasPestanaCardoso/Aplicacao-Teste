@@ -74,7 +74,7 @@ public class PessoaController {
 		                Cell cell3 = row.createCell(colNum++);
 		                cell3.setCellValue(ps.getCpf());
 		                Cell cell4 = row.createCell(colNum++);
-		                cell4.setCellValue(ps.getTelefone());
+		                cell4.setCellValue(ps.getTelefone()); 
 		            }
 		  
 		     FileOutputStream outputStream = new FileOutputStream(System.getProperty("user.dir") + "\\arquivo.xlsx");
