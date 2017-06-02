@@ -31,100 +31,91 @@ public class PessoaController {
 	@Autowired
 	PessoaRepository pessoaRepository;
 
-    private Relatorio relatorio = new Relatorio();
+	private Relatorio relatorio = new Relatorio();
 
-
-	
 	@RequestMapping(value = "/salvar", method = RequestMethod.POST)
 	public @ResponseBody Pessoa salvar(@RequestBody Pessoa pessoa) {
 
 		try {
-			
-			if(!pessoaRepository.registroDuplicado(pessoa.getNome())){
+
+			if (!pessoaRepository.registroDuplicado(pessoa.getNome())) {
 				pessoaRepository.incluir(pessoa);
-			}else{
+			} else {
 				throw new Exception("Duplicado");
 			}
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
- 
+
 		return pessoa;
 	}
-	
-	@RequestMapping(value = "/gerarExcel", method = RequestMethod.POST)
-	public @ResponseBody ArquivoResource gerarExcel(@RequestBody List<Pessoa> pessoa) throws SerialException, SQLException {
-				 
-		try {
-		
-			 XSSFWorkbook workbook = new XSSFWorkbook();
-		     XSSFSheet sheet = workbook.createSheet("Pessoas");
-		   
-		     int rowNum = 0;
-		     
-		     for (Pessoa ps : pessoa) {
-		            Row row = sheet.createRow(rowNum++);
-		            int colNum = 0;
-		                Cell cell = row.createCell(colNum++);
-		                cell.setCellValue(ps.getNome());
-		                Cell cell2 = row.createCell(colNum++);
-		                cell2.setCellValue(ps.getData());
-		                Cell cell3 = row.createCell(colNum++);
-		                cell3.setCellValue(ps.getCpf());
-		                Cell cell4 = row.createCell(colNum++);
-		                cell4.setCellValue(ps.getTelefone()); 
-		            }
-		  
-		     FileOutputStream outputStream = new FileOutputStream(System.getProperty("user.dir") + "\\arquivo.xlsx");
-	         		     
-			 workbook.write(outputStream);
-	         workbook.close();
-	         
 
-	         relatorio.setNome("Pessoas");
-	         relatorio.setConteudo(outputStream.toString().getBytes(Charset.forName("UTF-8")));         
-         
+	@RequestMapping(value = "/gerarExcel", method = RequestMethod.POST)
+	public @ResponseBody ArquivoResource gerarExcel(@RequestBody List<Pessoa> pessoa)
+			throws SerialException, SQLException {
+
+		try {
+
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet("Pessoas");
+
+			int rowNum = 0;
+
+			for (Pessoa ps : pessoa) {
+				Row row = sheet.createRow(rowNum++);
+				int colNum = 0;
+				Cell cell = row.createCell(colNum++);
+				cell.setCellValue(ps.getNome());
+				Cell cell2 = row.createCell(colNum++);
+				cell2.setCellValue(ps.getData());
+				Cell cell3 = row.createCell(colNum++);
+				cell3.setCellValue(ps.getCpf());
+				Cell cell4 = row.createCell(colNum++);
+				cell4.setCellValue(ps.getTelefone());
+			}
+
+			FileOutputStream outputStream = new FileOutputStream(System.getProperty("user.dir") + "\\arquivo.xlsx");
+
+			workbook.write(outputStream);
+			workbook.close();
+
+			relatorio.setNome("Pessoas");
+			relatorio.setConteudo(outputStream.toString().getBytes(Charset.forName("UTF-8")));
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return new ArquivoResource(relatorio);
 	}
-	
+
 	@RequestMapping(value = "/carregar", method = RequestMethod.GET)
 	public @ResponseBody List<Pessoa> carregar() {
 
 		return pessoaRepository.todosUsuarios();
 
 	}
-	
-	
-	@RequestMapping(value="/excluirRegistro/{nome}", method= RequestMethod.DELETE)
-	public @ResponseBody void excluir(@PathVariable String nome){
- 
+
+	@RequestMapping(value = "/excluirRegistro/{nome}", method = RequestMethod.DELETE)
+	public @ResponseBody void excluir(@PathVariable String nome) {
+
 		pessoaRepository.excluir(nome);
-		
+
 	}
-	
-	
+
 	@RequestMapping(value = "/alterar", method = RequestMethod.POST)
 	public @ResponseBody Pessoa alterar(@RequestBody Pessoa pessoa) {
 
 		try {
-			
+
 			pessoaRepository.alterar(pessoa);
-	
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return pessoa;
 	}
-	
-	
-	
-	
 
 }

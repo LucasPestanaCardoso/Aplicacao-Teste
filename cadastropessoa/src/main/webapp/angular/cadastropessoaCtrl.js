@@ -15,31 +15,33 @@
 		   };     
 			
 		   $scope.adicionarContato = function (contato) {
-			  			   
-			   if(isAlteracao){
-				   				   
-				   contato.nome = contatoForm.nome.value;
-				   contato.cpf =  contatoForm.cpf.value;
-				   contato.data =  contatoForm.data.value;
-				   contato.telefone = contatoForm.telefone.value; 
-			
-				   $http.post("pessoa/alterar/" , contato).then(function(data) {
-					   delete $scope.contato;
-					   $scope.contatoForm.$setPristine();
-					   carregarContatos();
-				   });
+			  	
 				   
-			   }else{
-				   $http.post("pessoa/salvar", contato).then(successCallback);
+				   if(isAlteracao){
+					   				   
+					   contato.nome = contatoForm.nome.value;
+					   contato.cpf =  contatoForm.cpf.value;
+					   contato.data =  contatoForm.data.value;
+					   contato.telefone = contatoForm.telefone.value; 
+				
+					   $http.post("pessoa/alterar/" , contato).then(function(data) {
+						   delete $scope.contato;
+						   $scope.contatoForm.$setPristine();
+						   carregarContatos();
+					   });
 					   
-				   function successCallback(response){
+				   }else{
+					   $http.post("pessoa/salvar", contato).then(successCallback);
+						   
+					   function successCallback(response){
+						   
+						   	delete $scope.contato;
+							$scope.contatoForm.$setPristine();
+							carregarContatos();
+					   }
 					   
-					   	delete $scope.contato;
-						$scope.contatoForm.$setPristine();
-						carregarContatos();
 				   }
-				   
-			   }
+			   
 			   
 			   isAlteracao = false;
 		   };

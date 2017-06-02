@@ -82,7 +82,7 @@
 	</div>
  
 			
-	<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)"  ng-disabled="contatoForm.nome.$error.required && contatoForm.nome.value == null">Salvar</button>
+	<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)"  ng-disabled="contatoForm.nome.$error.required">Salvar</button>
 	<button class="btn btn-warning btn-block" ng-disabled="!contatos.length > 0"   ng-click="gerarExcel(contatos)">Gerar Excel</button>	
 				
 		
