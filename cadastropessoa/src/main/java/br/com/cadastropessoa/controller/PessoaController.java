@@ -56,7 +56,7 @@ public class PessoaController {
 	
 	@RequestMapping(value = "/gerarExcel", method = RequestMethod.POST)
 	public @ResponseBody ArquivoResource gerarExcel(@RequestBody List<Pessoa> pessoa) throws SerialException, SQLException {
-				
+				 
 		try {
 		
 			 XSSFWorkbook workbook = new XSSFWorkbook();
