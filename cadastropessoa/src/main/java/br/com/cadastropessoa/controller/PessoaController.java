@@ -1,17 +1,11 @@
 package br.com.cadastropessoa.controller;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -37,8 +31,6 @@ public class PessoaController {
 	@Autowired
 	PessoaRepository pessoaRepository;
 
-	
-    private	List<Pessoa> listaPessoas = new ArrayList<>();
     private Relatorio relatorio = new Relatorio();
 
 
@@ -63,7 +55,7 @@ public class PessoaController {
 	}
 	
 	@RequestMapping(value = "/gerarExcel", method = RequestMethod.POST)
-	public @ResponseBody byte[] gerarExcel(@RequestBody List<Pessoa> pessoa) throws SerialException, SQLException {
+	public @ResponseBody ArquivoResource gerarExcel(@RequestBody List<Pessoa> pessoa) throws SerialException, SQLException {
 				
 		try {
 		
@@ -85,7 +77,7 @@ public class PessoaController {
 		                cell4.setCellValue(ps.getTelefone());
 		            }
 		  
-		     FileOutputStream outputStream = new FileOutputStream("C:\\Users\\Lucas Pestana\\arquivo.xlsx");
+		     FileOutputStream outputStream = new FileOutputStream(System.getProperty("user.dir") + "\\arquivo.xlsx");
 	         		     
 			 workbook.write(outputStream);
 	         workbook.close();
@@ -98,17 +90,9 @@ public class PessoaController {
 			e.printStackTrace();
 		}
 		
-		return relatorio.getConteudo();
-	}
-	
-	
-	@RequestMapping(value = "/excelGerado", method = RequestMethod.GET)
-	public @ResponseBody ArquivoResource excelGerado() {
-		
 		return new ArquivoResource(relatorio);
 	}
 	
-
 	@RequestMapping(value = "/carregar", method = RequestMethod.GET)
 	public @ResponseBody List<Pessoa> carregar() {
 

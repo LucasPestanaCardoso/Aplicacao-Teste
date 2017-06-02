@@ -30,9 +30,9 @@
 				   });
 				   
 			   }else{
-				   $http.post("pessoa/salvar", contato).then(successCallback , errorCallback);
+				   $http.post("pessoa/salvar", contato).then(successCallback);
 					   
-				   function successCallback(response , data){
+				   function successCallback(response){
 					   
 					   	delete $scope.contato;
 						$scope.contatoForm.$setPristine();
@@ -66,8 +66,10 @@
 	    	   
 	    	   function successCallback(data, status, headers, config){
 				   
-	    		   	var blob = new Blob([data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+	    		  	var blob = new Blob([data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
 	    		    var objectUrl = URL.createObjectURL(blob);
+	    		    console.log(objectUrl);
+	    		    
 	    		    window.open(objectUrl);
 			   }
 	    	   
